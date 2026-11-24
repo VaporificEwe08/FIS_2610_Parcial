@@ -3,7 +3,7 @@ package co.edu.javeriana.fis.electoral.modelo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Departamento {
+public class Departamento implements ComponenteElectoral {
 
     private final String codigo;
     private final String nombre;
@@ -57,5 +57,27 @@ public class Departamento {
         return municipios.removeIf(municipio ->
             municipio.getCodigo().equals(codigo)
         );
+    }
+
+    @Override
+    public long getTotalVotos() {
+        long total = 0;
+
+        for (Municipio municipio : municipios) {
+            total += municipio.getTotalVotos();
+        }
+
+        return total;
+    }
+
+    @Override
+    public long getCensoTotal() {
+        long total = 0;
+
+        for (Municipio municipio : municipios) {
+            total += municipio.getCensoTotal();
+        }
+
+        return total;
     }
 }

@@ -3,7 +3,7 @@ package co.edu.javeriana.fis.electoral.modelo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PuestoVotacion {
+public class PuestoVotacion implements ComponenteElectoral {
 
     private final String codigo;
     private final String nombre;
@@ -65,5 +65,27 @@ public class PuestoVotacion {
         }
 
         return mesas.removeIf(mesa -> mesa.getNumero() == numero);
+    }
+
+    @Override
+    public long getTotalVotos() {
+        long total = 0;
+
+        for (MesaVotacion mesa : mesas) {
+            total += mesa.getTotalVotos();
+        }
+
+        return total;
+    }
+
+    @Override
+    public long getCensoTotal() {
+        long total = 0;
+
+        for (MesaVotacion mesa : mesas) {
+            total += mesa.getCensoTotal();
+        }
+
+        return total;
     }
 }

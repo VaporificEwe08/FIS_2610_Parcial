@@ -3,7 +3,7 @@ package co.edu.javeriana.fis.electoral.modelo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MesaVotacion {
+public class MesaVotacion implements ComponenteElectoral {
 
     private final int numero;
     private final int censoElectoral;
@@ -117,5 +117,15 @@ public class MesaVotacion {
         }
 
         novedades.add(novedad);
+    }
+
+    @Override
+    public long getTotalVotos() {
+        return acta == null ? 0 : acta.getTotalVotos();
+    }
+
+    @Override
+    public long getCensoTotal() {
+        return censoElectoral;
     }
 }
