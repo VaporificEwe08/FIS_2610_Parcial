@@ -227,4 +227,91 @@ class MesaVotacionTest {
             mesa.eliminarJurado("")
         );
     }
+
+    @Test
+    void getActaSinRegistro() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        assertNull(mesa.getActa());
+    }
+
+    @Test
+    void getActaRegistrada() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        ActaElectoral acta = new ActaElectoral.Builder("ACT-01")
+            .votosBlanco(10)
+            .build();
+
+        mesa.registrarActa(acta);
+
+        assertSame(acta, mesa.getActa());
+    }
+
+    @Test
+    void registrarActaValida() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        ActaElectoral acta = new ActaElectoral.Builder("ACT-01")
+            .agregarResultado(new ResultadoElectoral(
+                new Candidato("1001", "Juan", 1), 200))
+            .build();
+
+        mesa.registrarActa(acta);
+
+        assertEquals(200L, mesa.getActa().getTotalVotos());
+    }
+
+    @Test
+    void registrarActaNula() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        assertThrows(IllegalArgumentException.class,
+            () -> mesa.registrarActa(null));
+    }
+
+    @Test
+    void registrarActaDuplicada() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        ActaElectoral primera =
+            new ActaElectoral.Builder("ACT-01").build();
+
+        ActaElectoral segunda =
+            new ActaElectoral.Builder("ACT-02").build();
+
+        mesa.registrarActa(primera);
+
+        assertThrows(IllegalStateException.class,
+            () -> mesa.registrarActa(segunda));
+
+        assertSame(primera, mesa.getActa());
+    }
+
+    @Test
+    void registrarActaSuperaCenso() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        ActaElectoral acta = new ActaElectoral.Builder("ACT-01")
+            .votosBlanco(301)
+            .build();
+
+        assertThrows(IllegalArgumentException.class,
+            () -> mesa.registrarActa(acta));
+
+        assertNull(mesa.getActa());
+    }
+
+    @Test
+    void registrarActaIgualAlCenso() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        ActaElectoral acta = new ActaElectoral.Builder("ACT-01")
+            .votosBlanco(300)
+            .build();
+
+        mesa.registrarActa(acta);
+
+        assertEquals(300L, mesa.getActa().getTotalVotos());
+    }
 }
