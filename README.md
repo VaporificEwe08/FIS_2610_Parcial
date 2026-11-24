@@ -88,40 +88,73 @@ Seis patrones, con al menos uno por categoría. Cada uno responde a una situaci�
 ## Estructura del proyecto
 
 ```
-FIS_2610_Parcial/
+FIS_2610_Parcial-grupo-3/
 ├── .github/
-│   └── modernize/java-upgrade/          # scripts auxiliares de la herramienta de actualización de Java
-├── sistema-electoral/                   # proyecto Maven
-│   ├── src/
-│   │   ├── main/java/co/edu/javeriana/fis/electoral/modelo/    # entidades del dominio
-│   │   │   ├── ActaElectoral.java
-│   │   │   ├── AsignacionJurado.java
-│   │   │   ├── Candidato.java
-│   │   │   ├── Departamento.java
-│   │   │   ├── Jurado.java
-│   │   │   ├── MesaVotacion.java
-│   │   │   ├── Municipio.java
-│   │   │   ├── PartidoPolitico.java
-│   │   │   ├── ProcesoElectoral.java
-│   │   │   ├── PuestoVotacion.java
-│   │   │   ├── ResultadoElectoral.java
-│   │   │   ├── RolJurado.java
-│   │   │   └── TipoEleccion.java
-│   │   └── test/java/co/edu/javeriana/fis/electoral/modelo/    # pruebas unitarias, una clase por entidad
-│   │       ├── ActaElectoralTest.java
-│   │       ├── AsignacionJuradoTest.java
-│   │       ├── CandidatoTest.java
-│   │       ├── DepartamentoTest.java
-│   │       ├── JuradoTest.java
-│   │       ├── MesaVotacionTest.java
-│   │       ├── MunicipioTest.java
-│   │       ├── PartidoPoliticoTest.java
-│   │       ├── ProcesoElectoralTest.java
-│   │       ├── PuestoVotacionTest.java
-│   │       └── ResultadoElectoralTest.java
-│   ├── .gitignore
-│   └── pom.xml
-└── README.md
+│   └── workflows/
+│       └── ci.yml
+├── README.md
+└── sistema-electoral/
+    ├── .gitignore
+    ├── pom.xml
+    ├── docs/
+    │   └── evidencias/
+    │       ├── cobertura-jacoco.csv
+    │       ├── resultado-pruebas-local.tx
+    │       └── resultado-pruebas-local.txt
+    └── src/
+        ├── main/
+        │   └── java/co/edu/javeriana/fis/electoral/modelo/
+        │       ├── ActaElectoral.java
+        │       ├── AnalizadorElectoral.java
+        │       ├── AsignacionJurado.java
+        │       ├── Candidato.java
+        │       ├── ComponenteElectoral.java
+        │       ├── Departamento.java
+        │       ├── EstadoEnVotacion.java
+        │       ├── EstadoEscrutinio.java
+        │       ├── EstadoFinalizado.java
+        │       ├── EstadoProceso.java
+        │       ├── EstadoProgramado.java
+        │       ├── EstrategiaAbstencion.java
+        │       ├── EstrategiaAnalisis.java
+        │       ├── EstrategiaParticipacion.java
+        │       ├── EstrategiaTotalVotos.java
+        │       ├── FabricaIncidente.java
+        │       ├── FabricaNovedad.java
+        │       ├── FabricaReclamacion.java
+        │       ├── Incidente.java
+        │       ├── Jurado.java
+        │       ├── MesaVotacion.java
+        │       ├── Municipio.java
+        │       ├── NovedadElectoral.java
+        │       ├── PartidoPolitico.java
+        │       ├── ProcesoElectoral.java
+        │       ├── PuestoVotacion.java
+        │       ├── Reclamacion.java
+        │       ├── ResultadoElectoral.java
+        │       ├── RolJurado.java
+        │       ├── SistemaElectoralFacade.java
+        │       └── TipoEleccion.java
+        └── test/
+            └── java/co/edu/javeriana/fis/electoral/modelo/
+                ├── ActaElectoralTest.java
+                ├── AnalizadorElectoralTest.java
+                ├── AsignacionJuradoTest.java
+                ├── CandidatoTest.java
+                ├── ComponenteElectoralTest.java
+                ├── DepartamentoTest.java
+                ├── EstadoProcesoTest.java
+                ├── EstrategiaAnalisisTest.java
+                ├── FabricaNovedadTest.java
+                ├── JuradoTest.java
+                ├── MesaVotacionTest.java
+                ├── MunicipioTest.java
+                ├── NovedadElectoralTest.java
+                ├── PartidoPolitico.java
+                ├── ProcesoElectoralTest.java
+                ├── PuestoVotacionTest.java
+                ├── ResultadoElectoralTest.java
+                └── SistemaElectoralFacadeTest.java
 ```
 ## Requisitos y ejecución
 
