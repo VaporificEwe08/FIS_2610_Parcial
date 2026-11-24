@@ -185,4 +185,15 @@ class PuestoVotacionTest {
             crearPuesto().eliminarMesa(-1)
         );
     }
+
+    @Test
+    void eliminarMesaInexistenteConColeccionNoVacia() {
+        PuestoVotacion puesto = crearPuesto();
+
+        puesto.agregarMesa(new MesaVotacion(1, 300));
+
+        assertFalse(puesto.eliminarMesa(99));
+        assertEquals(1, puesto.getMesas().size());
+        assertEquals(1, puesto.getMesas().get(0).getNumero());
+    }
 }
