@@ -131,7 +131,7 @@ FIS_2610_Parcial/
 ```bash
 git clone https://github.com/<usuario-u-organizacion>/FIS_2610_Parcial.git
 cd FIS_2610_Parcial
-git checkout <rama-del-equipo>
+git checkout <grupo-3>
 
 mvn -B clean test      # compila y ejecuta todas las pruebas
 ```
@@ -191,12 +191,12 @@ Formato: `<tipo>(<ámbito opcional>): <descripción en imperativo>`
 
 ## Equipo
 
-**Ecobogota — Grupo 4** · rama `<rama-del-equipo>`
+**Ecobogota — Grupo 3** · rama `<grupo-3>`
 
 | Integrante | Usuario de GitHub |
 |---|---|
-| Carlos Ney Bernal | `@<usuario>` |
-| Pablo Alfonso Jimenez Becerra | `@<usuario>` |
+| Carlos Ney Bernal | `@<VaporificEwe08>` |
+| Pablo Alfonso Jimenez Becerra | `@<PythonK1ller>` |
 | `<nombre>` | `@<usuario>` |
 
 ---
