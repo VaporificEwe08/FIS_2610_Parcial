@@ -69,4 +69,125 @@ class MunicipioTest {
         assertEquals("1", municipio.getCodigo());
         assertEquals("A", municipio.getNombre());
     }
+
+    @Test
+    void getPuestosVacio() {
+        Municipio municipio = new Municipio("25175", "Chia");
+
+        assertTrue(municipio.getPuestos().isEmpty());
+    }
+
+    @Test
+    void getPuestosConDatos() {
+        Municipio municipio = new Municipio("25175", "Chia");
+        PuestoVotacion puesto = new PuestoVotacion(
+            "PV-01",
+            "Colegio",
+            "Calle 10"
+        );
+
+        municipio.agregarPuesto(puesto);
+
+        assertEquals(puesto, municipio.getPuestos().get(0));
+    }
+
+    @Test
+    void getPuestosInmutable() {
+        Municipio municipio = new Municipio("25175", "Chia");
+
+        assertThrows(UnsupportedOperationException.class, () ->
+            municipio
+                .getPuestos()
+                .add(new PuestoVotacion("PV-01", "Colegio", "Calle 10"))
+        );
+    }
+
+    @Test
+    void agregarPuestoValido() {
+        Municipio municipio = new Municipio("25175", "Chia");
+
+        municipio.agregarPuesto(
+            new PuestoVotacion("PV-01", "Colegio", "Calle 10")
+        );
+
+        assertEquals(1, municipio.getPuestos().size());
+    }
+
+    @Test
+    void agregarVariosPuestos() {
+        Municipio municipio = new Municipio("25175", "Chia");
+
+        municipio.agregarPuesto(
+            new PuestoVotacion("PV-01", "Colegio", "Calle 10")
+        );
+
+        municipio.agregarPuesto(
+            new PuestoVotacion("PV-02", "Escuela", "Calle 20")
+        );
+
+        assertEquals(2, municipio.getPuestos().size());
+    }
+
+    @Test
+    void agregarPuestoNulo() {
+        Municipio municipio = new Municipio("25175", "Chia");
+
+        assertThrows(IllegalArgumentException.class, () ->
+            municipio.agregarPuesto(null)
+        );
+    }
+
+    @Test
+    void agregarPuestoDuplicado() {
+        Municipio municipio = new Municipio("25175", "Chia");
+
+        municipio.agregarPuesto(
+            new PuestoVotacion("PV-01", "Colegio", "Calle 10")
+        );
+
+        assertThrows(IllegalArgumentException.class, () ->
+            municipio.agregarPuesto(
+                new PuestoVotacion("PV-01", "Escuela", "Calle 20")
+            )
+        );
+
+        assertEquals(1, municipio.getPuestos().size());
+    }
+
+    @Test
+    void eliminarPuestoExistente() {
+        Municipio municipio = new Municipio("25175", "Chia");
+
+        municipio.agregarPuesto(
+            new PuestoVotacion("PV-01", "Colegio", "Calle 10")
+        );
+
+        assertTrue(municipio.eliminarPuesto("PV-01"));
+        assertTrue(municipio.getPuestos().isEmpty());
+    }
+
+    @Test
+    void eliminarPuestoInexistente() {
+        Municipio municipio = new Municipio("25175", "Chia");
+
+        assertFalse(municipio.eliminarPuesto("PV-99"));
+    }
+
+    @Test
+    void eliminarPuestoCodigoNulo() {
+        Municipio municipio = new Municipio("25175", "Chia");
+
+        assertThrows(IllegalArgumentException.class, () ->
+            municipio.eliminarPuesto(null)
+        );
+    }
+
+    @Test
+    void eliminarPuestoCodigoVacio() {
+        Municipio municipio = new Municipio("25175", "Chia");
+
+        assertThrows(IllegalArgumentException.class, () ->
+            municipio.eliminarPuesto("")
+        );
+    }
 }
