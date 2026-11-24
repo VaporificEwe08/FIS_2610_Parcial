@@ -499,4 +499,48 @@ class SistemaElectoralFacadeTest {
         assertEquals(1, mesa.getAsignaciones().size());
         assertEquals(1, partido.getCandidatos().size());
     }
+
+    @Test
+    void registrarProcesosDiferentes() {
+        crearProceso();
+
+        sistema.registrarProceso(
+            "PE-02",
+            "Congreso",
+            TipoEleccion.CONGRESO,
+            LocalDate.of(2026, 3, 8)
+        );
+
+        assertEquals(2, sistema.getProcesos().size());
+    }
+
+    @Test
+    void buscarSegundoProceso() {
+        crearProceso();
+
+        ProcesoElectoral segundo = sistema.registrarProceso(
+            "PE-02",
+            "Congreso",
+            TipoEleccion.CONGRESO,
+            LocalDate.of(2026, 3, 8)
+        );
+
+        assertSame(segundo, sistema.buscarProceso("PE-02"));
+    }
+
+    @Test
+    void registrarDepartamentosDiferentes() {
+        sistema.registrarDepartamento("25", "Cundinamarca");
+        sistema.registrarDepartamento("05", "Antioquia");
+
+        assertEquals(2, sistema.getDepartamentos().size());
+    }
+
+    @Test
+    void registrarPartidosDiferentes() {
+        sistema.registrarPartido("PP-01", "Partido A");
+        sistema.registrarPartido("PP-02", "Partido B");
+
+        assertEquals(2, sistema.getPartidos().size());
+    }
 }

@@ -2,7 +2,7 @@ GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_
 Sistema de Informacion Electoral - FIS 2610 Parcial 2,co.edu.javeriana.fis.electoral.modelo,EstadoEscrutinio,0,11,0,0,0,4,0,3,0,3
 Sistema de Informacion Electoral - FIS 2610 Parcial 2,co.edu.javeriana.fis.electoral.modelo,Municipio,0,143,0,22,0,33,0,20,0,9
 Sistema de Informacion Electoral - FIS 2610 Parcial 2,co.edu.javeriana.fis.electoral.modelo,EstadoProgramado,0,11,0,0,0,4,0,3,0,3
-Sistema de Informacion Electoral - FIS 2610 Parcial 2,co.edu.javeriana.fis.electoral.modelo,SistemaElectoralFacade,4,271,4,24,4,57,4,27,0,17
+Sistema de Informacion Electoral - FIS 2610 Parcial 2,co.edu.javeriana.fis.electoral.modelo,SistemaElectoralFacade,0,275,0,28,0,61,0,31,0,17
 Sistema de Informacion Electoral - FIS 2610 Parcial 2,co.edu.javeriana.fis.electoral.modelo,EstadoFinalizado,0,5,0,0,0,2,0,2,0,2
 Sistema de Informacion Electoral - FIS 2610 Parcial 2,co.edu.javeriana.fis.electoral.modelo,ProcesoElectoral,0,107,0,16,0,34,0,19,0,11
 Sistema de Informacion Electoral - FIS 2610 Parcial 2,co.edu.javeriana.fis.electoral.modelo,EstrategiaParticipacion,0,28,0,4,0,7,0,4,0,2
