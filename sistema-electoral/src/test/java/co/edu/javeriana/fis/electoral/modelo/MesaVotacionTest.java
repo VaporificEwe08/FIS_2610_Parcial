@@ -253,8 +253,9 @@ class MesaVotacionTest {
         MesaVotacion mesa = new MesaVotacion(1, 300);
 
         ActaElectoral acta = new ActaElectoral.Builder("ACT-01")
-            .agregarResultado(new ResultadoElectoral(
-                new Candidato("1001", "Juan", 1), 200))
+            .agregarResultado(
+                new ResultadoElectoral(new Candidato("1001", "Juan", 1), 200)
+            )
             .build();
 
         mesa.registrarActa(acta);
@@ -266,24 +267,24 @@ class MesaVotacionTest {
     void registrarActaNula() {
         MesaVotacion mesa = new MesaVotacion(1, 300);
 
-        assertThrows(IllegalArgumentException.class,
-            () -> mesa.registrarActa(null));
+        assertThrows(IllegalArgumentException.class, () ->
+            mesa.registrarActa(null)
+        );
     }
 
     @Test
     void registrarActaDuplicada() {
         MesaVotacion mesa = new MesaVotacion(1, 300);
 
-        ActaElectoral primera =
-            new ActaElectoral.Builder("ACT-01").build();
+        ActaElectoral primera = new ActaElectoral.Builder("ACT-01").build();
 
-        ActaElectoral segunda =
-            new ActaElectoral.Builder("ACT-02").build();
+        ActaElectoral segunda = new ActaElectoral.Builder("ACT-02").build();
 
         mesa.registrarActa(primera);
 
-        assertThrows(IllegalStateException.class,
-            () -> mesa.registrarActa(segunda));
+        assertThrows(IllegalStateException.class, () ->
+            mesa.registrarActa(segunda)
+        );
 
         assertSame(primera, mesa.getActa());
     }
@@ -296,8 +297,9 @@ class MesaVotacionTest {
             .votosBlanco(301)
             .build();
 
-        assertThrows(IllegalArgumentException.class,
-            () -> mesa.registrarActa(acta));
+        assertThrows(IllegalArgumentException.class, () ->
+            mesa.registrarActa(acta)
+        );
 
         assertNull(mesa.getActa());
     }
@@ -313,5 +315,78 @@ class MesaVotacionTest {
         mesa.registrarActa(acta);
 
         assertEquals(300L, mesa.getActa().getTotalVotos());
+    }
+
+    @Test
+    void getNovedadesVacio() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        assertTrue(mesa.getNovedades().isEmpty());
+    }
+
+    @Test
+    void getNovedadesConDatos() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+        Incidente incidente = new Incidente("I-01", "Retraso", mesa);
+
+        mesa.registrarNovedad(incidente);
+
+        assertSame(incidente, mesa.getNovedades().get(0));
+    }
+
+    @Test
+    void getNovedadesInmutable() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        assertThrows(UnsupportedOperationException.class, () ->
+            mesa.getNovedades().add(new Incidente("I-01", "Retraso", mesa))
+        );
+    }
+
+    @Test
+    void registrarVariasNovedades() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        mesa.registrarNovedad(new Incidente("I-01", "Retraso", mesa));
+
+        mesa.registrarNovedad(new Reclamacion("R-01", "Revision", mesa));
+
+        assertEquals(2, mesa.getNovedades().size());
+    }
+
+    @Test
+    void registrarNovedadNula() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        assertThrows(IllegalArgumentException.class, () ->
+            mesa.registrarNovedad(null)
+        );
+    }
+
+    @Test
+    void registrarNovedadDeOtraMesa() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+        MesaVotacion otraMesa = new MesaVotacion(2, 300);
+
+        Incidente incidente = new Incidente("I-01", "Retraso", otraMesa);
+
+        assertThrows(IllegalArgumentException.class, () ->
+            mesa.registrarNovedad(incidente)
+        );
+
+        assertTrue(mesa.getNovedades().isEmpty());
+    }
+
+    @Test
+    void registrarCodigoNovedadDuplicado() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        mesa.registrarNovedad(new Incidente("N-01", "Retraso", mesa));
+
+        assertThrows(IllegalArgumentException.class, () ->
+            mesa.registrarNovedad(new Reclamacion("N-01", "Revision", mesa))
+        );
+
+        assertEquals(1, mesa.getNovedades().size());
     }
 }

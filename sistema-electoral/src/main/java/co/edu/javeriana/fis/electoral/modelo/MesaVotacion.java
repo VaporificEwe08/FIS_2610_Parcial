@@ -9,6 +9,7 @@ public class MesaVotacion {
     private final int censoElectoral;
     private final List<AsignacionJurado> asignaciones;
     private ActaElectoral acta;
+    private final List<NovedadElectoral> novedades = new ArrayList<>();
 
     public MesaVotacion(int numero, int censoElectoral) {
         if (numero <= 0) {
@@ -92,5 +93,29 @@ public class MesaVotacion {
         }
 
         this.acta = acta;
+    }
+
+    public List<NovedadElectoral> getNovedades() {
+        return List.copyOf(novedades);
+    }
+
+    public void registrarNovedad(NovedadElectoral novedad) {
+        if (novedad == null) {
+            throw new IllegalArgumentException("Novedad invalida");
+        }
+
+        if (novedad.getMesa() != this) {
+            throw new IllegalArgumentException(
+                "La novedad pertenece a otra mesa"
+            );
+        }
+
+        for (NovedadElectoral existente : novedades) {
+            if (existente.getCodigo().equals(novedad.getCodigo())) {
+                throw new IllegalArgumentException("Novedad duplicada");
+            }
+        }
+
+        novedades.add(novedad);
     }
 }
