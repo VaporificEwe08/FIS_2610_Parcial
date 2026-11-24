@@ -8,6 +8,7 @@ public class ProcesoElectoral {
     private final String nombre;
     private final TipoEleccion tipo;
     private LocalDate fecha;
+    private EstadoProceso estado;
 
     public ProcesoElectoral(
         String id,
@@ -35,6 +36,7 @@ public class ProcesoElectoral {
         this.nombre = nombre;
         this.tipo = tipo;
         this.fecha = fecha;
+        this.estado = new EstadoProgramado();
     }
 
     public String getId() {
@@ -59,5 +61,29 @@ public class ProcesoElectoral {
         }
 
         this.fecha = nuevaFecha;
+    }
+
+    public String getEstado() {
+        return estado.getNombre();
+    }
+
+    void cambiarEstado(EstadoProceso nuevoEstado) {
+        if (nuevoEstado == null) {
+            throw new IllegalArgumentException("Estado invalido");
+        }
+
+        this.estado = nuevoEstado;
+    }
+
+    public void iniciarVotacion() {
+        estado.iniciarVotacion(this);
+    }
+
+    public void iniciarEscrutinio() {
+        estado.iniciarEscrutinio(this);
+    }
+
+    public void finalizar() {
+        estado.finalizar(this);
     }
 }
