@@ -89,20 +89,40 @@ Seis patrones, con al menos uno por categoría. Cada uno responde a una situaci�
 
 ```
 FIS_2610_Parcial/
-├── .github/workflows/ci.yml      # pipeline de integración continua
-├── docs/                         # informe de resultados y evidencias
-├── src/
-│   ├── main/java/co/edu/javeriana/electoral/
-│   │   ├── modelo/               # Partido, Candidato, Jurado
-│   │   ├── territorio/           # Composite
-│   │   ├── proceso/              # Factory Method y State
-│   │   ├── acta/                 # Builder y Observer
-│   │   └── fachada/              # Facade
-│   └── test/java/co/edu/javeriana/electoral/
-├── pom.xml
+├── .github/
+│   └── modernize/java-upgrade/          # scripts auxiliares de la herramienta de actualización de Java
+├── sistema-electoral/                   # proyecto Maven
+│   ├── src/
+│   │   ├── main/java/co/edu/javeriana/fis/electoral/modelo/    # entidades del dominio
+│   │   │   ├── ActaElectoral.java
+│   │   │   ├── AsignacionJurado.java
+│   │   │   ├── Candidato.java
+│   │   │   ├── Departamento.java
+│   │   │   ├── Jurado.java
+│   │   │   ├── MesaVotacion.java
+│   │   │   ├── Municipio.java
+│   │   │   ├── PartidoPolitico.java
+│   │   │   ├── ProcesoElectoral.java
+│   │   │   ├── PuestoVotacion.java
+│   │   │   ├── ResultadoElectoral.java
+│   │   │   ├── RolJurado.java
+│   │   │   └── TipoEleccion.java
+│   │   └── test/java/co/edu/javeriana/fis/electoral/modelo/    # pruebas unitarias, una clase por entidad
+│   │       ├── ActaElectoralTest.java
+│   │       ├── AsignacionJuradoTest.java
+│   │       ├── CandidatoTest.java
+│   │       ├── DepartamentoTest.java
+│   │       ├── JuradoTest.java
+│   │       ├── MesaVotacionTest.java
+│   │       ├── MunicipioTest.java
+│   │       ├── PartidoPoliticoTest.java
+│   │       ├── ProcesoElectoralTest.java
+│   │       ├── PuestoVotacionTest.java
+│   │       └── ResultadoElectoralTest.java
+│   ├── .gitignore
+│   └── pom.xml
 └── README.md
 ```
-
 ## Requisitos y ejecución
 
 - Java 17
@@ -175,8 +195,8 @@ Formato: `<tipo>(<ámbito opcional>): <descripción en imperativo>`
 
 | Integrante | Usuario de GitHub |
 |---|---|
-| Juan Pablo Conrado Molina | `@<usuario>` |
-| `<nombre>` | `@<usuario>` |
+| Carlos Ney Bernal | `@<usuario>` |
+| Pablo Alfonso Jimenez Becerra | `@<usuario>` |
 | `<nombre>` | `@<usuario>` |
 
 ---
