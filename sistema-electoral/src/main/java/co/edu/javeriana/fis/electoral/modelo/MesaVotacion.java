@@ -1,9 +1,13 @@
 package co.edu.javeriana.fis.electoral.modelo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MesaVotacion {
 
     private final int numero;
     private final int censoElectoral;
+    private final List<AsignacionJurado> asignaciones;
 
     public MesaVotacion(int numero, int censoElectoral) {
         if (numero <= 0) {
@@ -16,6 +20,7 @@ public class MesaVotacion {
 
         this.numero = numero;
         this.censoElectoral = censoElectoral;
+        this.asignaciones = new ArrayList<>();
     }
 
     public int getNumero() {
@@ -24,5 +29,45 @@ public class MesaVotacion {
 
     public int getCensoElectoral() {
         return censoElectoral;
+    }
+
+    public List<AsignacionJurado> getAsignaciones() {
+        return List.copyOf(asignaciones);
+    }
+
+    public void asignarJurado(AsignacionJurado asignacion) {
+        if (asignacion == null) {
+            throw new IllegalArgumentException("Asignacion invalida");
+        }
+
+        for (AsignacionJurado existente : asignaciones) {
+            if (
+                existente
+                    .getJurado()
+                    .getDocumento()
+                    .equals(asignacion.getJurado().getDocumento())
+            ) {
+                throw new IllegalArgumentException("Jurado duplicado");
+            }
+
+            if (
+                existente.getRol() == asignacion.getRol() &&
+                asignacion.getRol() != RolJurado.VOCAL
+            ) {
+                throw new IllegalArgumentException("Rol ocupado");
+            }
+        }
+
+        asignaciones.add(asignacion);
+    }
+
+    public boolean eliminarJurado(String documento) {
+        if (documento == null || documento.isBlank()) {
+            throw new IllegalArgumentException("Documento invalido");
+        }
+
+        return asignaciones.removeIf(asignacion ->
+            asignacion.getJurado().getDocumento().equals(documento)
+        );
     }
 }

@@ -56,4 +56,175 @@ class MesaVotacionTest {
     void getCensoAlternativo() {
         assertEquals(500, new MesaVotacion(2, 500).getCensoElectoral());
     }
+
+    @Test
+    void getAsignacionesVacio() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        assertTrue(mesa.getAsignaciones().isEmpty());
+    }
+
+    @Test
+    void getAsignacionesConDatos() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        AsignacionJurado asignacion = new AsignacionJurado(
+            new Jurado("1001", "Juan"),
+            RolJurado.PRESIDENTE
+        );
+
+        mesa.asignarJurado(asignacion);
+
+        assertEquals(asignacion, mesa.getAsignaciones().get(0));
+    }
+
+    @Test
+    void getAsignacionesInmutable() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        assertThrows(UnsupportedOperationException.class, () ->
+            mesa
+                .getAsignaciones()
+                .add(
+                    new AsignacionJurado(
+                        new Jurado("1001", "Juan"),
+                        RolJurado.PRESIDENTE
+                    )
+                )
+        );
+    }
+
+    @Test
+    void asignarJuradoValido() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        mesa.asignarJurado(
+            new AsignacionJurado(
+                new Jurado("1001", "Juan"),
+                RolJurado.PRESIDENTE
+            )
+        );
+
+        assertEquals(1, mesa.getAsignaciones().size());
+    }
+
+    @Test
+    void asignarVariosJurados() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        mesa.asignarJurado(
+            new AsignacionJurado(
+                new Jurado("1001", "Juan"),
+                RolJurado.PRESIDENTE
+            )
+        );
+
+        mesa.asignarJurado(
+            new AsignacionJurado(
+                new Jurado("1002", "Maria"),
+                RolJurado.VICEPRESIDENTE
+            )
+        );
+
+        assertEquals(2, mesa.getAsignaciones().size());
+    }
+
+    @Test
+    void asignarJuradoNulo() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        assertThrows(IllegalArgumentException.class, () ->
+            mesa.asignarJurado(null)
+        );
+    }
+
+    @Test
+    void asignarJuradoDuplicado() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+        Jurado jurado = new Jurado("1001", "Juan");
+
+        mesa.asignarJurado(new AsignacionJurado(jurado, RolJurado.PRESIDENTE));
+
+        assertThrows(IllegalArgumentException.class, () ->
+            mesa.asignarJurado(new AsignacionJurado(jurado, RolJurado.VOCAL))
+        );
+
+        assertEquals(1, mesa.getAsignaciones().size());
+    }
+
+    @Test
+    void asignarRolOcupado() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        mesa.asignarJurado(
+            new AsignacionJurado(
+                new Jurado("1001", "Juan"),
+                RolJurado.PRESIDENTE
+            )
+        );
+
+        assertThrows(IllegalArgumentException.class, () ->
+            mesa.asignarJurado(
+                new AsignacionJurado(
+                    new Jurado("1002", "Maria"),
+                    RolJurado.PRESIDENTE
+                )
+            )
+        );
+    }
+
+    @Test
+    void asignarMultiplesVocales() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        mesa.asignarJurado(
+            new AsignacionJurado(new Jurado("1001", "Juan"), RolJurado.VOCAL)
+        );
+
+        mesa.asignarJurado(
+            new AsignacionJurado(new Jurado("1002", "Maria"), RolJurado.VOCAL)
+        );
+
+        assertEquals(2, mesa.getAsignaciones().size());
+    }
+
+    @Test
+    void eliminarJuradoExistente() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        mesa.asignarJurado(
+            new AsignacionJurado(
+                new Jurado("1001", "Juan"),
+                RolJurado.PRESIDENTE
+            )
+        );
+
+        assertTrue(mesa.eliminarJurado("1001"));
+        assertTrue(mesa.getAsignaciones().isEmpty());
+    }
+
+    @Test
+    void eliminarJuradoInexistente() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        assertFalse(mesa.eliminarJurado("9999"));
+    }
+
+    @Test
+    void eliminarJuradoDocumentoNulo() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        assertThrows(IllegalArgumentException.class, () ->
+            mesa.eliminarJurado(null)
+        );
+    }
+
+    @Test
+    void eliminarJuradoDocumentoVacio() {
+        MesaVotacion mesa = new MesaVotacion(1, 300);
+
+        assertThrows(IllegalArgumentException.class, () ->
+            mesa.eliminarJurado("")
+        );
+    }
 }
