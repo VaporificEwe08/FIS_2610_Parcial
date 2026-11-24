@@ -8,6 +8,7 @@ public class MesaVotacion {
     private final int numero;
     private final int censoElectoral;
     private final List<AsignacionJurado> asignaciones;
+    private ActaElectoral acta;
 
     public MesaVotacion(int numero, int censoElectoral) {
         if (numero <= 0) {
@@ -69,5 +70,27 @@ public class MesaVotacion {
         return asignaciones.removeIf(asignacion ->
             asignacion.getJurado().getDocumento().equals(documento)
         );
+    }
+
+    public ActaElectoral getActa() {
+        return acta;
+    }
+
+    public void registrarActa(ActaElectoral acta) {
+        if (acta == null) {
+            throw new IllegalArgumentException("Acta invalida");
+        }
+
+        if (this.acta != null) {
+            throw new IllegalStateException("La mesa ya tiene un acta");
+        }
+
+        if (acta.getTotalVotos() > censoElectoral) {
+            throw new IllegalArgumentException(
+                "Los votos superan el censo electoral"
+            );
+        }
+
+        this.acta = acta;
     }
 }
