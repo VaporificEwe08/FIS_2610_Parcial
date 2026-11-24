@@ -1,0 +1,59 @@
+name: CI-CD Sistema Electoral - Grupo 3
+
+on:
+  push:
+    branches:
+      - grupo-3
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Compilacion, pruebas y empaquetado
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: sistema-electoral
+
+    steps:
+      - name: Descargar codigo fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Compilar proyecto
+        run: mvn -B clean compile
+
+      - name: Ejecutar pruebas unitarias
+        run: mvn -B test
+
+      - name: Empaquetar y generar cobertura
+        run: mvn -B -DskipTests verify
+
+      - name: Publicar resultados de pruebas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: resultados-pruebas
+          path: sistema-electoral/target/surefire-reports/
+
+      - name: Publicar reporte JaCoCo
+        uses: actions/upload-artifact@v4
+        with:
+          name: reporte-cobertura
+          path: sistema-electoral/target/site/jacoco/
+
+      - name: Publicar archivo JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: sistema-electoral-grupo-3
+          path: sistema-electoral/target/*.jar
